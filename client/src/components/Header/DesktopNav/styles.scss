@@ -1,0 +1,22 @@
+@import '../../../../Utils/master';
+
+nav {
+  ul a {
+    color: $dark-pink;
+    font-size: 1.1rem;
+    font-weight: bold;
+
+    &.btn-floating {
+      background-color: $dark-pink;
+
+      &:hover,
+      &:focus {
+        background-color: $darker-pink;
+      }
+    }
+
+    &:hover {
+      background-color: $darker-grey;
+    }
+  }
+}

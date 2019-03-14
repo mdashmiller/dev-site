@@ -1,0 +1,56 @@
+@import '../../../Utils/master';
+
+.mini-nav-btn {
+  background-color: black;
+  color: $med-grey;
+	height: 42px;
+  width: 46px;
+	position: fixed;
+	bottom: 8px;
+	right: 10px;
+	padding-top: 8px;
+	text-align: center;
+	border-radius: 4px;
+	cursor: pointer;
+  z-index: 1;
+  
+  &.to-top {
+    opacity: 0.7;
+
+    .arrow-up {
+      color: white;
+      font-size: 46px;
+      position: fixed;
+      bottom: -13px;
+      right: 20px;
+    }
+  }
+}
+
+.mini-nav-menu {
+  background-color: black;
+  height: 190px;
+	width: 80px;
+	position: fixed;
+	bottom: 8px;
+	right: 10px;
+	border-radius: 4px;
+  z-index: 2;
+  
+  ul {
+    margin: 0;
+  }
+
+  li {
+    padding: 8px;
+
+    a {
+      color: $med-grey;
+    }
+  }
+
+  li:nth-child(5) {
+    padding-left: 38px;
+    color: $dark-pink;
+  }
+}

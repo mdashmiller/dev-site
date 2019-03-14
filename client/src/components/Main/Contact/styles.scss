@@ -1,0 +1,56 @@
+@import '../../../../Utils/master';
+
+#contact p {
+  font-size: 1.2rem;
+
+  @media screen and (min-width: 600px) {
+    font-size: 1.15rem;
+  }
+
+  @media screen and (min-width: 1441px) {
+    font-size: 1.4rem;
+  }
+}
+
+.input-field {
+
+  p {
+    margin-bottom: 0;
+  }
+
+  .active {
+    color: $dark-pink !important;
+  }
+}
+	
+#submit {
+  background-color: $dark-pink;
+	margin-top: 20px;
+	width: 84px;
+}
+
+.success {
+  margin-top: 3rem;
+  color: green;
+}
+
+.fail {
+  margin-top: 3rem;
+  color: red;
+}
+
+// change materialize form field color
+input[type=text]:not(.browser-default):focus:not([readonly]),
+input[type=email]:not(.browser-default):focus:not([readonly]),
+input[type=password]:not(.browser-default):focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]) {
+	border-color: $lighter-pink;
+	box-shadow: none;
+}
+
+// change chrome autofill background color
+input:-webkit-autofill,
+textarea:-webkit-autofill {
+    box-shadow: 0 0 0px 30px #f0e3e9 inset !important;
+    transition: 0s !important;
+}

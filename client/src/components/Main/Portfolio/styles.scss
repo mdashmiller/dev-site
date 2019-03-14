@@ -1,0 +1,9 @@
+.card .card-content {
+  height: 11rem;
+  
+  p {
+    @media screen and (min-width: 703px) {
+      font-size: 1.1rem;
+    }
+  }
+}

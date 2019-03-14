@@ -1,0 +1,82 @@
+@import '../../../Utils/master';
+
+$banner-mobile-sm: '../../assets/images/punchcard_banner_mobile_400.jpg';
+$banner-mobile-md: '../../assets/images/punchcard_banner_mobile_520.jpg';
+$banner-mobile-lg: '../../assets/images/punchcard_banner_mobile_540.jpg';
+$banner-tablet-sm: '../../assets/images/punchcard_banner_2406.jpg';
+$banner-tablet-md-and-lg: '../../assets/images/punchcard_banner_816.jpg';
+$banner-tablet-md-bigger: '../../assets/images/punchcard_banner_897.jpg';
+$banner-laptop-md: '../../assets/images/punchcard_banner_1032.jpg';
+$banner-biggest: '../../assets/images/punchcard_banner_1380.jpg';
+
+@mixin background-size($image, $height) {
+	background: url($image);
+	background-size: auto;
+	background-repeat: no-repeat;
+	background-position: bottom;
+	background-color: black;
+	height: $height;
+}
+
+header {
+  @include background-size($banner-mobile-sm, 212px);
+
+	@media screen and (min-width: 353px) {
+		@include background-size($banner-mobile-md, 256px);
+	}
+
+	@media screen and (min-width: 389px) {
+		@include background-size($banner-mobile-lg, 260px);
+	}
+
+	@media screen and (min-width: 601px) {
+		@include background-size($banner-tablet-sm, 334px);
+		-webkit-background-size: auto 100%;
+		background-size: auto 100%;
+	}
+
+	@media screen and (min-width: 786px) {
+		@include background-size($banner-tablet-md-and-lg, 382px);
+	}
+
+	@media screen and (min-width: 937px) {
+		// header bumps up in size temporarily for medium tablets
+		// to line-up with the mobile-style navbar
+		@include background-size($banner-tablet-md-bigger, 418px);
+	}
+
+	@media screen and (min-width: 993px) {
+		@include background-size($banner-tablet-md-and-lg, 382px);
+	}
+
+	@media screen and (min-width: 1072px) {
+		@include background-size($banner-laptop-md, 468px);
+	}
+
+	@media screen and (min-width: 1364px) {
+		@include background-size($banner-biggest, 602px);
+	}
+}
+
+nav {
+	background-color: $dark-grey;
+	font-family: Comfortaa, Arial, sans-serif;
+
+	.brand-logo img {
+		width: 155px;
+		height: 55px;
+
+		@media screen and (min-width: 993px) {
+			width: 166px;
+			height: 60px;
+		}
+	}
+
+	// have navbar fixed to top of
+	// window for smaller screens
+	@media screen and (max-width: 992px) {
+		position: fixed;
+		top: 0;
+		z-index: 2;
+	}
+}

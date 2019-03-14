@@ -1,0 +1,25 @@
+#about {
+
+  p {
+    font-size: 1.2rem;
+
+    @media screen and (min-width: 600px) {
+      font-size: 1.15rem;
+    }
+
+    @media screen and (min-width: 1441px) {
+      font-size: 1.4rem;
+    }
+  }
+
+  img {
+
+    @media screen and (min-width: 993px) {
+      margin-top: 8rem;
+    }
+
+    @media screen and (min-width: 1338px) {
+      margin-top: 3rem;
+    }
+  }
+} 

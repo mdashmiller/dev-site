@@ -1,0 +1,26 @@
+@import '../Utils/master';
+
+body {
+  margin: 0;
+  padding: 0;
+  background: $old-paper;
+	font-family: Quicksand, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.section {
+  padding-top: 4vw;
+	padding-bottom: 4vw;
+}
+
+a:focus {
+  outline-color: $lighter-pink;
+  outline-style: auto;
+  outline-width: 5px;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
