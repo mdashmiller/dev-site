@@ -2,12 +2,14 @@ const express = require('express')
 
 const app = express()
 
-app.get('/', (req, res) => {
-  const greeting = 'Future Home of the Greatest Dev-site Ever!-ever!-ever!...'
+// use body-parser middleware
+app.use(express.json())
 
-  res.send(greeting)
-})
+// use routes
+app.use('/api/send', require('./routes/api/send'))
 
-const PORT = 5000
+const PORT = process.env.PORT || 5000
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+app.listen(PORT, () => console.log(`server listening on port ${PORT}`))
+
+module.exports = app
