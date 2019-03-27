@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 import './styles.scss'
 
 import notChars from '../../../../src/notChars'
@@ -141,8 +142,10 @@ class Contact extends Component {
   }
 
   handleSubmit = e => {
-    const { email, message } = this.state
+    e.preventDefault()
 
+    const { email, message } = this.state
+    
     // check that user has filled both form fields
     if (!email || !message) {
       this.setState({ formError: true })
@@ -150,7 +153,12 @@ class Contact extends Component {
       this.setState({ submitClicked: true })
     }
 
-    e.preventDefault()
+    // send data from form as POST
+    // request to api/send
+    axios
+      .post('/api/send', { email, message })
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
   }
 
   // lifecycle hooks

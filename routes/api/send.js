@@ -13,33 +13,22 @@ router.post('/', (req, res) => {
     <p>Message: ${req.body.message}</p>
     `
   
-  // setup email data
-  let mailOptions
-  if (process.env.NODE_ENV = 'test') {
-    mailOptions = {
-      from: 'testUser',
-      to: 'testReceiver',
-      subject: 'test subject',
-      html: 'test html'
-    }
-  } else {
-    mailOptions = {
-      from: gmailUser,
-      to: sendTo,
-      subject: 'mattmiller.com contact form submission',
-      html: message
-    }
+  const mailOptions = {
+    from: gmailUser,
+    to: sendTo,
+    subject: 'mattmiller.com contact form submission',
+    html: message
   }
 
   // send mail with imported transport object
   transporter.sendMail(mailOptions, (err, data) => {
     if (err) {
       res.json({
-        status: 'fail'
+        msg: 'fail'
       })
     } else {
       res.json({
-        status: 'success'
+        msg: 'success'
       })
     }
   })

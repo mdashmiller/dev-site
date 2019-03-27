@@ -787,7 +787,7 @@ describe('handleSubmit()', () => {
 
     describe('user fills in both fields', () => {
 
-      it('should call nodemailer', () => {
+      it('should call axios.post()', () => {
 
       })
 
