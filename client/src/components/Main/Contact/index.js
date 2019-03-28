@@ -18,7 +18,8 @@ class Contact extends Component {
     messageError: false,
     formError: false,
     submitClicked: false,
-    // sendError: null
+    sendSuccess: false,
+    sendError: false
   }
 
   // component methods
@@ -114,6 +115,7 @@ class Contact extends Component {
       freezeMessage: false,
       emailError: false,
       messageError: false,
+      sendSuccess: false,
       // sendError: null
     })
   }
@@ -145,20 +147,34 @@ class Contact extends Component {
     e.preventDefault()
 
     const { email, message } = this.state
+
+    // clear any sendError message from the ui
+    // anytime user submits the form
+    this.setState({ sendError: false })
     
     // check that user has filled both form fields
     if (!email || !message) {
       this.setState({ formError: true })
     } else {
       this.setState({ submitClicked: true })
-    }
 
-    // send data from form as POST
-    // request to api/send
-    axios
-      .post('/api/send', { email, message })
-      .then(res => console.log(res))
-      .catch(err => console.log(err))
+      // send data from form as POST
+      // request to api/send
+      axios
+        .post('/api/send', { email, message })
+        .then(res => {
+          if (res.data.msg === 'success') {
+            this.setState({ sendSuccess: true })
+          } else {
+            this.setState({ sendError: true })
+          }
+          this.setState({ submitClicked: false })
+        })
+        .catch(err => {
+          console.log(err)
+          // this.setState({ submitClicked: false })
+        })
+    }
   }
 
   // lifecycle hooks
@@ -186,7 +202,11 @@ class Contact extends Component {
       message,
       emailError,
       messageError,
-      formError } = this.state
+      formError,
+      submitClicked,
+      sendSuccess,
+      sendError
+    } = this.state
     
     return (
       <section
@@ -248,12 +268,35 @@ class Contact extends Component {
                 <button data-test="submit" className="btn" id="submit">
                   Submit
                 </button>
-                {
-                  formError && 
+                {formError && 
+                  <div data-test="form-ui" className="form-ui">
                     <p data-test="form-err" className="fail">
                       Need more input! Please complete both fields.
                     </p>
-                }
+                  </div>}
+                {submitClicked &&
+                  <div data-test="form-ui" className="form-ui">
+                    <i
+                      data-test="sending-icon"
+                      className="fas fa-spinner fa-spin"
+                    >
+                    </i>
+                    <span data-test="sending-message">
+                      Sending Your Message...
+                    </span>
+                  </div>}
+                {sendSuccess &&
+                  <div data-test="form-ui" className="form-ui">
+                    <p data-test="success">
+                      Message sent! Thanks for your interest.  I'll be in touch soon.
+                    </p>
+                  </div>}
+                {sendError &&
+                  <div data-test="form-ui" className="form-ui">
+                    <p data-test="error">
+                      Message not sent... There seems to be a network error. Please try again in a moment.
+                    </p>
+                  </div>}
               </div>
             </form>
           </div>
