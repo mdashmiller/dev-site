@@ -86,10 +86,49 @@ describe('Contact rendering', () => {
 
   describe('redering upon submission', () =>  {
 
+    describe('there is no form error', () => {
+
+      beforeAll(() => {
+        component.setState({ submitClicked: true })
+      })
+
+      afterAll(() => {
+        component.setState({ submitClicked: false })
+      })
+
+      it('should render 1 form-ui div', () => {
+        const wrapper = findByTestAttr(component, 'form-ui')
+        expect(wrapper.length).toBe(1)
+      })
+
+      it('should render 1 spinner icon', () => {
+        const wrapper = findByTestAttr(component, 'sending-icon')
+        expect(wrapper.length).toBe(1)
+      })
+
+      it('should render 1 loading-message span', () => {
+        const wrapper = findByTestAttr(component, 'sending-message')
+        expect(wrapper.length).toBe(1)
+      }) 
+
+    })
+
     describe('there is a form error', () => {
 
-      it('should render the form error p tag', () => {
+      beforeAll(() => {
         component.setState({ formError: true })
+      })
+
+      afterAll(() => {
+        component.setState({ formError: false })
+      })  
+
+      it('should render 1 form-ui div', () => {
+        const wrapper = findByTestAttr(component, 'form-ui')
+        expect(wrapper.length).toBe(1)
+      })
+
+      it('should render the form error p tag', () => {
         const wrapper = findByTestAttr(component, 'form-err')
         expect(wrapper.length).toBe(1)
       })
@@ -100,13 +139,45 @@ describe('Contact rendering', () => {
 
       describe('nodemailer returns an error', () => {
 
+        beforeAll(() => {
+          component.setState({ sendError: true })
+        })
 
+        afterAll(() => {
+          component.setState({ sendError: false })
+        })
+
+        it('should render 1 form-ui div', () => {
+          const wrapper = findByTestAttr(component, 'form-ui')
+          expect(wrapper.length).toBe(1)
+        })
+
+        it('should render 1 error message', () => {
+          const wrapper = findByTestAttr(component, 'error')
+          expect(wrapper.length).toBe(1)
+        })
 
       })
 
       describe('nodemailer returns success', () => {
 
+        beforeAll(() => {
+          component.setState({ sendSuccess: true })
+        })
 
+        afterAll(() => {
+          component.setState({ sendSuccess: false })
+        })
+
+        it('should render 1 form-ui div', () => {
+          const wrapper = findByTestAttr(component, 'form-ui')
+          expect(wrapper.length).toBe(1)
+        })
+
+        it('should render 1 success message', () => {
+          const wrapper = findByTestAttr(component, 'success')
+          expect(wrapper.length).toBe(1)
+        })
 
       })
 
@@ -610,13 +681,14 @@ describe('handleFocus()', () => {
 
   describe('directly invoking handleFocus()', () => {
 
-    it('should clear all errors in state', () => {
+    it('should reset all form-interaction variables in state', () => {
       component.setState({
         formError: true,
         freezeEmail: true,
         freezeMessage: true,
         emailError: true,
         messageError: true,
+        sendSuccess: true,
       // sendError: {message: 'Errrrrrorrrr!!!'}
       })
 
@@ -628,7 +700,8 @@ describe('handleFocus()', () => {
       expect(component.state('emailError')).toBe(false)
       expect(component.state('messageError')).toBe(false)
       expect(component.state('messageError')).toBe(false)
-      // expect(component.state('sendError')).toBe(null)
+      expect(component.state('sendSuccess')).toBe(false)
+      // expect(component.state('sendError')).toBe(false)
     })
 
   })
@@ -762,6 +835,14 @@ describe('handleSubmit()', () => {
       expect(event.preventDefault).toHaveBeenCalledTimes(1)
     })
 
+    it('should set state.sendError to false', () => {
+      component.setState({ sendError: true })
+
+      instance.handleSubmit(event)
+
+      expect(component.state('sendError')).toBe(false)
+    })
+
     describe('user leaves a form field blank', () => {
 
       it('should set state.formError to true', () =>  {
@@ -787,19 +868,58 @@ describe('handleSubmit()', () => {
 
     describe('user fills in both fields', () => {
 
-      it('should call nodemailer', () => {
+      it('should call axios.post()', () => {
 
       })
 
       it('should set state.submitClicked to true', () => {
         component.setState({
-          email: 'patti@dmv.com',
+          email: 'selma@dmv.com',
           message: 'Come over and watch vacation slides with Jubjub and me.'
         })
         instance.handleSubmit(event)
 
         expect(component.state('submitClicked')).toBe(true)
       })
+
+      // describe('receives a send success response', () => {
+
+      //   beforeAll(() => {
+      //     component.setState({
+      //       submitClicked: true,
+      //       sendSuccess: false
+      //     })
+      //     // mock axios
+      //   })
+
+      //   afterAll(() => {
+      //     component.setState({
+      //       submitClicked: false,
+      //       sendSuccess: true
+      //     })
+      //   })
+
+      //   it('should set state.submitClicked to false', () => {
+
+      //   })
+
+      //   it('should set state.sendSuccess to true', () => {
+
+      //   })
+
+      // })
+
+      // describe('receives a send fail response', () => {
+
+      //   it('should set state.submitClicked to false', () => {
+
+      //   })
+
+      //   it('should set state.sendError to true', () => {
+
+      //   })
+
+      // })
 
     })
 

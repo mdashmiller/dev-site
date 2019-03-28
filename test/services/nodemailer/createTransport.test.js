@@ -2,7 +2,7 @@ const chai = require('chai')
 const sinon = require('sinon')
 const sinonChai = require('sinon-chai')
 const nodemailer = require('nodemailer')
-const transporter = require('../../../services/nodemailer/createTransport')
+// const transporter = require('../../../services/nodemailer/createTransport')
 
 const expect = chai.expect
 chai.use(sinonChai)
