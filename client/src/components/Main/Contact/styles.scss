@@ -1,16 +1,19 @@
 @import '../../../../Utils/master';
 
-#contact p {
+#contact {
+
+  p, i, span {
   font-size: 1.2rem;
 
-  @media screen and (min-width: 600px) {
-    font-size: 1.15rem;
-  }
+    @media screen and (min-width: 600px) {
+      font-size: 1.15rem;
+    }
 
-  @media screen and (min-width: 1441px) {
-    font-size: 1.4rem;
+    @media screen and (min-width: 1441px) {
+      font-size: 1.4rem;
+    }
   }
-}
+} 
 
 .input-field {
 
@@ -21,6 +24,10 @@
   .active {
     color: $dark-pink !important;
   }
+
+  .form-ui {
+    margin-top: 2rem;
+  }
 }
 	
 #submit {
@@ -30,12 +37,10 @@
 }
 
 .success {
-  margin-top: 3rem;
   color: green;
 }
 
 .fail {
-  margin-top: 3rem;
   color: red;
 }
 

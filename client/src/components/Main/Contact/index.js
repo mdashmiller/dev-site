@@ -286,13 +286,13 @@ class Contact extends Component {
                     </span>
                   </div>}
                 {sendSuccess &&
-                  <div data-test="form-ui" className="form-ui">
+                  <div data-test="form-ui" className="form-ui success">
                     <p data-test="success">
                       Message sent! Thanks for your interest.  I'll be in touch soon.
                     </p>
                   </div>}
                 {sendError &&
-                  <div data-test="form-ui" className="form-ui">
+                  <div data-test="form-ui" className="form-ui fail">
                     <p data-test="error">
                       Message not sent... There seems to be a network error. Please try again in a moment.
                     </p>
