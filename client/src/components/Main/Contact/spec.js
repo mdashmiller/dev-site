@@ -6,6 +6,7 @@ import { shallow } from 'enzyme'
 import Contact from './index'
 
 import { findByTestAttr } from '../../../../Utils'
+import mockAxios from 'axios'
 
 // render component for testing
 const setUp = (props = {}) => {
@@ -868,10 +869,6 @@ describe('handleSubmit()', () => {
 
     describe('user fills in both fields', () => {
 
-      it('should call axios.post()', () => {
-
-      })
-
       it('should set state.submitClicked to true', () => {
         component.setState({
           email: 'selma@dmv.com',
@@ -882,13 +879,97 @@ describe('handleSubmit()', () => {
         expect(component.state('submitClicked')).toBe(true)
       })
 
+      describe('http request with axios', () => {
+
+        it('should call axios.post()', done => {
+          component.setState({
+            email: 'ralph@wiggum.com',
+            message: 'sleep is where i\'m a viking'
+          })
+          
+          mockAxios.post.mockImplementationOnce(() =>
+            Promise.resolve({
+              data: {
+                msg: 'success'
+              }
+            })
+          )
+
+          instance.handleSubmit(event)
+
+          done()
+
+          expect(mockAxios.post).toHaveBeenCalledTimes(1)
+          expect(mockAxios.post).toHaveBeenCalledWith(
+            '/api/send',
+            {
+              email: 'ralph@wiggum.com',
+              message: 'sleep is where i\'m a viking'
+            }
+          )
+        })
+
+        // describe('POST success', () => {
+
+        //   it('should set state.submitClicked to false and state.sendSuccess to true', done => {
+        //     component.setState({
+        //       email: 'moe@gargoyle.com',
+        //       message: 'get these fries offa my head, kid'
+        //     })
+
+        //     mockAxios.post.mockImplementationOnce(() =>
+        //       Promise.resolve({
+        //         data: {
+        //           msg: 'success'
+        //         }
+        //       })
+        //     )
+
+        //     instance.handleSubmit(event)
+
+        //     done()
+
+        //     expect(component.state('submitClicked')).toBe(false)
+        //     expect(component.state('sendSuccess')).toBe(true)
+        //   })
+
+        // })
+
+        // describe('POST failure', () => {
+
+        //   it('should set state.submitClicked to false and state.sendError to true', done => {
+        //     component.setState({
+        //       email: 'barney@gumble.com',
+        //       message: 'i made a movie?!'
+        //     })
+
+        //     mockAxios.post.mockImplementationOnce(() =>
+        //       Promise.resolve({
+        //         data: {
+        //           msg: 'fail'
+        //         }
+        //       })
+        //     )
+
+        //     instance.handleSubmit(event)
+
+        //     done()
+
+        //     expect(component.state('submitClicked')).toBe(false)
+        //     expect(component.state('sendError')).toBe(true)
+        //   })
+
+        // })
+
+      })
+      
       // describe('receives a send success response', () => {
 
       //   beforeAll(() => {
-      //     component.setState({
-      //       submitClicked: true,
-      //       sendSuccess: false
-      //     })
+          // component.setState({
+          //   submitClicked: true,
+          //   sendSuccess: false
+          // })
       //     // mock axios
       //   })
 
@@ -899,13 +980,13 @@ describe('handleSubmit()', () => {
       //     })
       //   })
 
-      //   it('should set state.submitClicked to false', () => {
+        // it('should set state.submitClicked to false', () => {
 
-      //   })
+        // })
 
-      //   it('should set state.sendSuccess to true', () => {
+        // it('should set state.sendSuccess to true', () => {
 
-      //   })
+        // })
 
       // })
 

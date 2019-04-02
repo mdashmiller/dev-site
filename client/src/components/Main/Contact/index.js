@@ -159,7 +159,7 @@ class Contact extends Component {
       this.setState({ submitClicked: true })
 
       // send data from form as POST
-      // request to api/send
+      // request to /api/send
       axios
         .post('/api/send', { email, message })
         .then(res => {
