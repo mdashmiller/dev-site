@@ -171,8 +171,10 @@ class Contact extends Component {
           this.setState({ submitClicked: false })
         })
         .catch(err => {
-          console.log(err)
-          // this.setState({ submitClicked: false })
+          this.setState({
+            sendError: true,
+            submitClicked: false
+          })
         })
     }
   }
