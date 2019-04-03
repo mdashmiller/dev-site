@@ -49,7 +49,7 @@ describe('nodemailer middleware', () => {
 
       transporter.sendMail({}, callbackSpy)
 
-      expect(callbackSpy).to.have.be.calledOnce
+      expect(callbackSpy).to.have.been.calledOnce
     })
 
     it('should send email with the expected mail options', () => {
