@@ -2,7 +2,7 @@ const chai = require('chai')
 const sinon = require('sinon')
 const sinonChai = require('sinon-chai')
 const nodemailer = require('nodemailer')
-// const transporter = require('../../../services/nodemailer/createTransport')
+const transporter = require('../../../services/nodemailer/createTransport')
 
 const expect = chai.expect
 chai.use(sinonChai)
@@ -23,6 +23,8 @@ describe('createTransport()', () => {
     }
   })
 
+  // create testable stand-in for 
+  // nodemailer.createTransport()
   let createTransportSpy
   beforeEach(() => {
     createTransportSpy = sinon.spy(nodemailer, 'createTransport')
@@ -34,7 +36,7 @@ describe('createTransport()', () => {
 
   it('should be called with the given options', () => {
     nodemailer.createTransport(testOptions)
-
+    
     expect(createTransportSpy).to.have.been.calledOnce
     expect(createTransportSpy).to.have.been.calledWith(testOptions)
   })
@@ -52,26 +54,43 @@ describe('createTransport()', () => {
 
 })
 
-// describe('transport.verify()', () => {
+describe('transporter.verify()', () => {
 
-//   it('should invoke the provided callback', () => {
+  // create a stub of transporter.verify() 
+  let verifyStub
+  beforeEach(() => {
+    verifyStub = sinon.stub(transporter, 'verify')
+  })
 
-//   })
+  afterEach(() => {
+    verifyStub.restore()
+  })
 
-//   describe('successful verification', () => {
+  it('should invoke the provided callback', () => {
+    // create a test callback and set the
+    // verify stub to invoke it
+    let callbackSpy = sinon.spy()
+    verifyStub.yields()
 
-//     it('should return the succes message', () => {
+    transporter.verify(callbackSpy)
 
-//     })
+    expect(callbackSpy).to.have.been.calledOnce
+  })
 
-//   })
+  // describe('successful verification', () => {
 
-//   describe('verification fail', () => {
+  //   it('should invoke the callback with undefined parameters', () => {
 
-//     it('should return the error', () => {
+  //   })
 
-//     })
+  // })
 
-//   })
+  // describe('verification fail', () => {
 
-// })
+  //   it('should invoke the callback with the error', () => {
+
+  //   })
+
+  // })
+
+})

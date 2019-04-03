@@ -13,13 +13,24 @@ router.post('/', (req, res) => {
     <p>Message: ${req.body.message}</p>
     `
   
-  const mailOptions = {
-    from: gmailUser,
-    to: sendTo,
-    subject: 'mattmiller.com contact form submission',
-    html: message
+  // use stand-in mail options in test environment
+  let mailOptions
+  if (process.env.NODE_ENV === 'test') {
+    mailOptions = {
+      from: 'testUser',
+      to: 'testReceiver',
+      subject: 'test subject',
+      html: 'test html'
+    }
+  } else {
+    mailOptions = {
+      from: gmailUser,
+      to: sendTo,
+      subject: 'mattmiller.com contact form submission',
+      html: message
+    }
   }
-
+  
   // send mail with imported transport object
   transporter.sendMail(mailOptions, (err, data) => {
     if (err) {
