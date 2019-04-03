@@ -1,19 +1,40 @@
 const nodemailer = require('nodemailer')
 const { gmailUser, gmailPass } = require('../../config')
+const nodemailerMock = require('nodemailer-mock')
 
-// SMPT details
-const transport = {
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  auth: {
-    user: gmailUser,
-    pass: gmailPass
+// create transporter dependent on NODE_ENV
+let transport, transporter
+
+if (process.env.NODE_ENV === 'test') {
+  // fake SMTP details for testing
+  transport = {
+    host: 'test.smtp',
+    port: 000,
+    secure: false,
+    auth: {
+      user: 'test user',
+      pass: 'test pass'
+    }
   }
-}
 
-// create transporter object using gmail SMTP
-const transporter = nodemailer.createTransport(transport)
+  // create stand-in transporter for tests
+  transporter = nodemailerMock.createTransport(transport)
+
+} else {
+  // SMPT details
+  transport = {
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
+    auth: {
+      user: gmailUser,
+      pass: gmailPass
+    }
+  }
+
+  // create transporter object using gmail SMTP
+  transporter = nodemailer.createTransport(transport)
+}
 
 transporter.verify((error, success) => {
   if (error) {
