@@ -80,6 +80,50 @@ describe('Contact rendering', () => {
     expect(wrapper.length).toBe(1)
   })
 
+  describe('user exceeds email input char limit', () => {
+
+    beforeEach(() => {
+      component.setState({ emailError: true })
+    })
+
+    afterEach(() => {
+      component.setState({ emailError: false })
+    })
+
+    it('should render 1 form-ui div', () => {
+      const wrapper = findByTestAttr(component, 'form-ui')
+      expect(wrapper.length).toBe(1)
+    })
+
+    it('should render 1 email-char-error p', () => {
+      const wrapper = findByTestAttr(component, 'email-char-err')
+      expect(wrapper.length).toBe(1)
+    })
+
+  })
+
+  describe('user exceeds message input char limit', () => {
+
+    beforeEach(() => {
+      component.setState({ messageError: true })
+    })
+
+    afterEach(() => {
+      component.setState({ messageError: false })
+    })
+
+    it('should render 1 form-ui div', () => {
+      const wrapper = findByTestAttr(component, 'form-ui')
+      expect(wrapper.length).toBe(1)
+    })
+
+    it('should render 1 msg-char-error p', () => {
+      const wrapper = findByTestAttr(component, 'msg-char-err')
+      expect(wrapper.length).toBe(1)
+    })
+
+  })
+
   describe('redering upon submission', () =>  {
 
     describe('disabling the form', () => {
@@ -136,7 +180,7 @@ describe('Contact rendering', () => {
 
     })
 
-    describe('there is a form error', () => {
+    describe('user leaves a form field blank', () => {
 
       beforeAll(() => {
         component.setState({ formError: true })
@@ -797,6 +841,12 @@ describe('trackChars()', () => {
         expect(component.state('freezeEmail')).toBe(false)
       })
 
+      it('should set state to remove emailError when under the char limit', () => {
+        component.setState({ emailError: true, emailChars: 2 })
+        instance.trackChars('email')
+        expect(component.state('emailError')).toBe(false)
+      })
+
     })
 
     describe('typing in message form field', () => {
@@ -811,6 +861,12 @@ describe('trackChars()', () => {
         component.setState({ messageChars: 2, freezeMessage: true })
         instance.trackChars('message')
         expect(component.state('freezeMessage')).toBe(false)
+      })
+
+      it('should set state to remove messageError when under the char limit', () => {
+        component.setState({ messageError: true, messageChars: 2 })
+        instance.trackChars('message')
+        expect(component.state('messageError')).toBe(false)
       })
 
     })

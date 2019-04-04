@@ -128,14 +128,20 @@ class Contact extends Component {
         if (emailChars >= 3) {
           this.setState({ freezeEmail: true })
         } else {
-          this.setState({ freezeEmail: false })
+          this.setState({
+            freezeEmail: false,
+            emailError: false
+          })
         }
         break
       case 'message':
         if (messageChars >= 3) {
           this.setState({ freezeMessage: true })
         } else {
-          this.setState({ freezeMessage: false })
+          this.setState({
+            freezeMessage: false,
+            messageError: false
+          })
         }
         break
       default:
@@ -289,6 +295,18 @@ class Contact extends Component {
                 >
                   Submit
                 </button>
+                {emailError &&
+                  <div data-test="form-ui" className="form-ui">
+                    <p data-test="email-char-err" className="fail">
+                      Sorry but your email address can't exceed 3 characters.
+                    </p>
+                  </div>}
+                {messageError &&
+                  <div data-test="form-ui" className="form-ui">
+                    <p data-test="msg-char-err" className="fail">
+                      Sorry but your message can't exceed 3 characters.
+                    </p>
+                  </div>}
                 {formError && 
                   <div data-test="form-ui" className="form-ui">
                     <p data-test="form-err" className="fail">
