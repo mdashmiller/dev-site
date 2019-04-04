@@ -164,7 +164,7 @@ class Contact extends Component {
         .post('/api/send', { email, message })
         .then(res => {
           if (res.data.msg === 'success') {
-            this.setState({ sendSuccess: true })
+            this.resetForm()
           } else {
             this.setState({ sendError: true })
           }
@@ -179,12 +179,21 @@ class Contact extends Component {
     }
   }
 
+  resetForm = () => {
+    this.setState({
+      sendSuccess: true,
+      email: '',
+      message: ''
+    })
+  }
+
   // lifecycle hooks
 
   componentDidUpdate(prevProps, prevState) {
     const {
       emailChars,
-      messageChars
+      messageChars,
+      sendSuccess
     } = this.state
 
     // if user has entered or deleted anything in the
@@ -194,6 +203,13 @@ class Contact extends Component {
       this.trackChars('email')
     } else if (messageChars !== prevState.messageChars) {
       this.trackChars('message')
+    }
+
+    // upon successful form submission reset the ui of the
+    // form to its initial appearance
+    if(sendSuccess && sendSuccess !== prevState.sendSuccess) {
+      const labels = document.querySelectorAll('label')
+      labels.forEach(label => label.classList.remove('active'))
     }
 
   }

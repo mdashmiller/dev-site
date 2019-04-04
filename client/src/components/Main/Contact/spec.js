@@ -935,7 +935,7 @@ describe('handleSubmit()', () => {
 
           describe('receive message-send-success response', () => {
 
-            it('should set state.submitClicked to false and state.sendSuccess to true', done => {
+            beforeEach(() => {
               component.setState({
                 email: 'moe@gargoyle.com',
                 message: 'get these fries offa my head, kid'
@@ -948,13 +948,24 @@ describe('handleSubmit()', () => {
                   }
                 })
               )
+            })
+
+            it('should call resetForm()', done => {
+              jest.spyOn(instance, 'resetForm')
 
               instance.handleSubmit(event)
 
               setTimeout(() => {
-                component.update()
+                expect(instance.resetForm).toHaveBeenCalledTimes(1)
 
-                expect(component.state('sendSuccess')).toBe(true)
+                done()
+              })
+            })
+
+            it('should set state.submitClicked to false', done => {
+              instance.handleSubmit(event)
+
+              setTimeout(() => {
                 expect(component.state('submitClicked')).toBe(false)
 
                 done()
@@ -982,8 +993,6 @@ describe('handleSubmit()', () => {
               instance.handleSubmit(event)
 
               setTimeout(() => {
-                component.update()
-
                 expect(component.state('submitClicked')).toBe(false)
                 expect(component.state('sendError')).toBe(true)
 
@@ -1010,8 +1019,6 @@ describe('handleSubmit()', () => {
             instance.handleSubmit(event)
 
             setTimeout(() => {
-              component.update()
-
               expect(component.state('submitClicked')).toBe(false)
               expect(component.state('sendError')).toBe(true)
 
@@ -1026,6 +1033,34 @@ describe('handleSubmit()', () => {
 
     })
 
+  })
+
+})
+
+describe('resetForm()', () => {
+
+  let component, instance
+  beforeAll(() => {
+    component = setUp()
+    instance = component.instance()
+
+    component.setState({
+      sendSuccess: false,
+      email: 'millhouse@bartsfriend.com',
+      message: 'everything is coming up millhouse!'
+    })
+  })
+
+  it('should set sendSuccess to true and clear the form fields', done => {
+    instance.resetForm()
+
+    setTimeout(() => {
+      expect(component.state('sendSuccess')).toBe(true)
+      expect(component.state('email')).toBe('')
+      expect(component.state('message')).toBe('')
+
+      done()
+    })
   })
 
 })
@@ -1078,6 +1113,27 @@ describe('componentDidUpdate()', () => {
       })
 
     })
+
+    // describe('resetting the form', () => {
+
+    //   // beforeAll(() => {
+    //   //   component.setState({ sendSuccess: true })
+    //   // })
+
+    //   it('should set the form labels to inactive after a successful submission', () => {
+    //     const email = findByTestAttr(component, 'email')
+    //     const labels = findByTestAttr(component, 'label')
+
+    //     email.simulate('focus')
+
+    //     expect(labels.find('label').at(0).hasClass('active')).toBe(true)
+        
+    //     // wrapper.forEach(label =>
+    //     //   expect(label.hasClass('active')).toBe(false)
+    //     // )
+    //   })
+
+    // })
 
   })
 
