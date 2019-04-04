@@ -19,11 +19,6 @@ const Parallax = ({ position }) => {
 
   return (
     <div data-test="container" className="parallax-container">
-      <noscript data-test="no-js" className="missing-img">
-        <div className="container center">
-          <h6 data-test="no-js-msg">Enable Javascript to view this image</h6>
-        </div>
-      </noscript>
       <div data-test="parallax" className="parallax">
         <img
           data-test={dt}

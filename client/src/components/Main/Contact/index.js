@@ -209,7 +209,7 @@ class Contact extends Component {
       sendSuccess,
       sendError
     } = this.state
-    
+
     return (
       <section
         data-test="contact"
@@ -231,10 +231,6 @@ class Contact extends Component {
           </div>
           <div data-test="col" className="col s12 l5 offset-l2">
             <form data-test="form" onSubmit={(e) => this.handleSubmit(e)}>
-              {/* JS disabled message */}
-              <noscript data-test="nojs">
-                <p id="no-js">Enable JavaScript to use this form</p>
-              </noscript>
               <div data-test="input-field" className="input-field">
                 <i data-test="form-icon" className="material-icons prefix">
                   email
@@ -244,6 +240,7 @@ class Contact extends Component {
                   type="email"
                   id="email"
                   value={email}
+                  disabled={submitClicked}
                   onKeyDown={(e) => this.handleKeyDown(e)}
                   onChange={(e) => this.handleChange(e)}
                   onFocus={() => this.handleFocus()}
@@ -259,6 +256,7 @@ class Contact extends Component {
                   className="materialize-textarea"
                   id="message"
                   value={message}
+                  disabled={submitClicked}
                   onKeyDown={(e) => this.handleKeyDown(e)}
                   onChange={(e) => this.handleChange(e)}
                   onFocus={() => this.handleFocus()}
@@ -267,7 +265,12 @@ class Contact extends Component {
                 <label data-test="label" htmlFor="message">Message</label>
               </div>
               <div data-test="input-field" className="input-field center">
-                <button data-test="submit" className="btn" id="submit">
+                <button
+                  data-test="submit"
+                  className="btn"
+                  id="submit"
+                  disabled={submitClicked}
+                >
                   Submit
                 </button>
                 {formError && 

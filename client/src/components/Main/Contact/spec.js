@@ -50,11 +50,6 @@ describe('Contact rendering', () => {
     expect(wrapper.length).toBe(1)
   })
 
-  it('should render 1 noscript element', () => {
-    const wrapper = findByTestAttr(component, 'nojs')
-    expect(wrapper.length).toBe(1)
-  })
-
   it('should render 3 input field divs', () => {
     const wrapper = findByTestAttr(component, 'input-field')
     expect(wrapper.length).toBe(3)
@@ -86,6 +81,33 @@ describe('Contact rendering', () => {
   })
 
   describe('redering upon submission', () =>  {
+
+    describe('disabling the form', () => {
+
+      beforeAll(() => {
+        component.setState({ submitClicked: true })
+      })
+
+      afterAll(() => {
+        component.setState({ submitClicked: false })
+      })
+
+      it('should set disabled attr to true for the email input', () => {
+        const wrapper = findByTestAttr(component, 'email')
+        expect(wrapper.props().disabled).toBe(true)
+      })
+
+      it('should set disabled attr to true for the message text-area', () => {
+        const wrapper = findByTestAttr(component, 'message')
+        expect(wrapper.props().disabled).toBe(true)
+      })
+
+      it('should set disabled attr to true for the submit button', () => {
+        const wrapper = findByTestAttr(component, 'submit')
+        expect(wrapper.props().disabled).toBe(true)
+      })
+
+    })
 
     describe('there is no form error', () => {
 

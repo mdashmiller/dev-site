@@ -28,16 +28,6 @@ describe('Parallax rendering', () => {
     expect(wrapper.length).toBe(1)
   })
 
-  it('should render 1 noscript tag', () => {
-    const wrapper = findByTestAttr(component, 'no-js')
-    expect(wrapper.length).toBe(1)
-  })
-
-  it('should render 1 no-js message', () => {
-    const wrapper = findByTestAttr(component, 'no-js-msg')
-    expect(wrapper.length).toBe(1)
-  })
-
   it('should render 1 parallax div', () => {
     const wrapper = findByTestAttr(component, 'parallax')
     expect(wrapper.length).toBe(1)
