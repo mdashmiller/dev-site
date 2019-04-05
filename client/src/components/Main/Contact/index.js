@@ -116,7 +116,7 @@ class Contact extends Component {
       emailError: false,
       messageError: false,
       sendSuccess: false,
-      // sendError: null
+      sendError: false
     })
   }
 
@@ -128,14 +128,20 @@ class Contact extends Component {
         if (emailChars >= 3) {
           this.setState({ freezeEmail: true })
         } else {
-          this.setState({ freezeEmail: false })
+          this.setState({
+            freezeEmail: false,
+            emailError: false
+          })
         }
         break
       case 'message':
         if (messageChars >= 3) {
           this.setState({ freezeMessage: true })
         } else {
-          this.setState({ freezeMessage: false })
+          this.setState({
+            freezeMessage: false,
+            messageError: false
+          })
         }
         break
       default:
@@ -148,9 +154,13 @@ class Contact extends Component {
 
     const { email, message } = this.state
 
-    // clear any sendError message from the ui
+    // clear any error messages from the ui
     // anytime user submits the form
-    this.setState({ sendError: false })
+    this.setState({
+      sendError: false,
+      emailError: false,
+      messageError: false
+    })
     
     // check that user has filled both form fields
     if (!email || !message) {
@@ -164,7 +174,7 @@ class Contact extends Component {
         .post('/api/send', { email, message })
         .then(res => {
           if (res.data.msg === 'success') {
-            this.setState({ sendSuccess: true })
+            this.resetForm()
           } else {
             this.setState({ sendError: true })
           }
@@ -179,12 +189,21 @@ class Contact extends Component {
     }
   }
 
+  resetForm = () => {
+    this.setState({
+      sendSuccess: true,
+      email: '',
+      message: ''
+    })
+  }
+
   // lifecycle hooks
 
   componentDidUpdate(prevProps, prevState) {
     const {
       emailChars,
-      messageChars
+      messageChars,
+      sendSuccess
     } = this.state
 
     // if user has entered or deleted anything in the
@@ -194,6 +213,13 @@ class Contact extends Component {
       this.trackChars('email')
     } else if (messageChars !== prevState.messageChars) {
       this.trackChars('message')
+    }
+
+    // upon successful form submission reset the ui of the
+    // form to its initial appearance
+    if(sendSuccess && sendSuccess !== prevState.sendSuccess) {
+      const labels = document.querySelectorAll('label')
+      labels.forEach(label => label.classList.remove('active'))
     }
 
   }
@@ -209,7 +235,11 @@ class Contact extends Component {
       sendSuccess,
       sendError
     } = this.state
-    
+
+    // change submit button to a retry button if
+    // there has been a submission error
+    const buttonText = sendError ? 'retry' : 'submit'
+
     return (
       <section
         data-test="contact"
@@ -231,10 +261,6 @@ class Contact extends Component {
           </div>
           <div data-test="col" className="col s12 l5 offset-l2">
             <form data-test="form" onSubmit={(e) => this.handleSubmit(e)}>
-              {/* JS disabled message */}
-              <noscript data-test="nojs">
-                <p id="no-js">Enable JavaScript to use this form</p>
-              </noscript>
               <div data-test="input-field" className="input-field">
                 <i data-test="form-icon" className="material-icons prefix">
                   email
@@ -244,6 +270,7 @@ class Contact extends Component {
                   type="email"
                   id="email"
                   value={email}
+                  disabled={submitClicked}
                   onKeyDown={(e) => this.handleKeyDown(e)}
                   onChange={(e) => this.handleChange(e)}
                   onFocus={() => this.handleFocus()}
@@ -259,6 +286,7 @@ class Contact extends Component {
                   className="materialize-textarea"
                   id="message"
                   value={message}
+                  disabled={submitClicked}
                   onKeyDown={(e) => this.handleKeyDown(e)}
                   onChange={(e) => this.handleChange(e)}
                   onFocus={() => this.handleFocus()}
@@ -267,38 +295,48 @@ class Contact extends Component {
                 <label data-test="label" htmlFor="message">Message</label>
               </div>
               <div data-test="input-field" className="input-field center">
-                <button data-test="submit" className="btn" id="submit">
-                  Submit
-                </button>
-                {formError && 
-                  <div data-test="form-ui" className="form-ui">
+                <div data-test="form-ui" className="form-ui">
+                  {emailError &&
+                    <p data-test="email-char-err" className="fail">
+                      Sorry but your email address can't exceed 3 characters.
+                    </p>}
+                  {messageError &&
+                    <p data-test="msg-char-err" className="fail">
+                      Sorry but your message can't exceed 3 characters.
+                    </p>}
+                  {formError &&
                     <p data-test="form-err" className="fail">
                       Need more input! Please complete both fields.
-                    </p>
-                  </div>}
-                {submitClicked &&
-                  <div data-test="form-ui" className="form-ui">
-                    <i
-                      data-test="sending-icon"
-                      className="fas fa-spinner fa-spin"
-                    >
-                    </i>
-                    <span data-test="sending-message">
-                      Sending Your Message...
-                    </span>
-                  </div>}
-                {sendSuccess &&
-                  <div data-test="form-ui" className="form-ui success">
-                    <p data-test="success">
+                    </p>}
+                  {submitClicked &&
+                    <div>
+                      <i
+                        data-test="sending-icon"
+                        className="fas fa-spinner fa-spin"
+                      >
+                      </i>
+                      <span data-test="sending-message">
+                        Sending Your Message...
+                      </span>
+                    </div>}
+                  {sendSuccess &&
+                    <p data-test="success" className="success">
                       Message sent! Thanks for your interest.  I'll be in touch soon.
-                    </p>
-                  </div>}
-                {sendError &&
-                  <div data-test="form-ui" className="form-ui fail">
-                    <p data-test="error">
+                    </p>}
+                  {sendError &&
+                    <p data-test="error" className="fail">
                       Message not sent... There seems to be a network error. Please try again in a moment.
-                    </p>
-                  </div>}
+                    </p>}
+                </div>
+                {!sendSuccess &&
+                  <button
+                    data-test="submit"
+                    className="btn"
+                    id="submit"
+                    disabled={submitClicked}
+                  >
+                    {buttonText}
+                  </button>}
               </div>
             </form>
           </div>

@@ -50,11 +50,6 @@ describe('Contact rendering', () => {
     expect(wrapper.length).toBe(1)
   })
 
-  it('should render 1 noscript element', () => {
-    const wrapper = findByTestAttr(component, 'nojs')
-    expect(wrapper.length).toBe(1)
-  })
-
   it('should render 3 input field divs', () => {
     const wrapper = findByTestAttr(component, 'input-field')
     expect(wrapper.length).toBe(3)
@@ -80,14 +75,55 @@ describe('Contact rendering', () => {
     expect(wrapper.length).toBe(2)
   })
 
+  it('should render 1 form-ui div', () => {
+    const wrapper = findByTestAttr(component, 'form-ui')
+    expect(wrapper.length).toBe(1)
+  })
+
   it('should render 1 submit button', () => {
     const wrapper = findByTestAttr(component, 'submit')
+
     expect(wrapper.length).toBe(1)
+    expect(wrapper.props().children).toBe('submit')
+  })
+
+  describe('user exceeds email input char limit', () => {
+
+    beforeEach(() => {
+      component.setState({ emailError: true })
+    })
+
+    afterEach(() => {
+      component.setState({ emailError: false })
+    })
+
+    it('should render 1 email-char-error p', () => {
+      const wrapper = findByTestAttr(component, 'email-char-err')
+      expect(wrapper.length).toBe(1)
+    })
+
+  })
+
+  describe('user exceeds message input char limit', () => {
+
+    beforeEach(() => {
+      component.setState({ messageError: true })
+    })
+
+    afterEach(() => {
+      component.setState({ messageError: false })
+    })
+
+    it('should render 1 msg-char-error p', () => {
+      const wrapper = findByTestAttr(component, 'msg-char-err')
+      expect(wrapper.length).toBe(1)
+    })
+
   })
 
   describe('redering upon submission', () =>  {
 
-    describe('there is no form error', () => {
+    describe('disabling the form', () => {
 
       beforeAll(() => {
         component.setState({ submitClicked: true })
@@ -97,9 +133,31 @@ describe('Contact rendering', () => {
         component.setState({ submitClicked: false })
       })
 
-      it('should render 1 form-ui div', () => {
-        const wrapper = findByTestAttr(component, 'form-ui')
-        expect(wrapper.length).toBe(1)
+      it('should set disabled attr to true for the email input', () => {
+        const wrapper = findByTestAttr(component, 'email')
+        expect(wrapper.props().disabled).toBe(true)
+      })
+
+      it('should set disabled attr to true for the message text-area', () => {
+        const wrapper = findByTestAttr(component, 'message')
+        expect(wrapper.props().disabled).toBe(true)
+      })
+
+      it('should set disabled attr to true for the submit button', () => {
+        const wrapper = findByTestAttr(component, 'submit')
+        expect(wrapper.props().disabled).toBe(true)
+      })
+
+    })
+
+    describe('there is no form error', () => {
+
+      beforeAll(() => {
+        component.setState({ submitClicked: true })
+      })
+
+      afterAll(() => {
+        component.setState({ submitClicked: false })
       })
 
       it('should render 1 spinner icon', () => {
@@ -114,7 +172,7 @@ describe('Contact rendering', () => {
 
     })
 
-    describe('there is a form error', () => {
+    describe('user leaves a form field blank', () => {
 
       beforeAll(() => {
         component.setState({ formError: true })
@@ -123,11 +181,6 @@ describe('Contact rendering', () => {
       afterAll(() => {
         component.setState({ formError: false })
       })  
-
-      it('should render 1 form-ui div', () => {
-        const wrapper = findByTestAttr(component, 'form-ui')
-        expect(wrapper.length).toBe(1)
-      })
 
       it('should render the form error p tag', () => {
         const wrapper = findByTestAttr(component, 'form-err')
@@ -148,14 +201,14 @@ describe('Contact rendering', () => {
           component.setState({ sendError: false })
         })
 
-        it('should render 1 form-ui div', () => {
-          const wrapper = findByTestAttr(component, 'form-ui')
-          expect(wrapper.length).toBe(1)
-        })
-
         it('should render 1 error message', () => {
           const wrapper = findByTestAttr(component, 'error')
           expect(wrapper.length).toBe(1)
+        })
+
+        it('should change text of submit button to retry', () => {
+          const wrapper = findByTestAttr(component, 'submit')
+          expect(wrapper.props().children).toBe('retry')
         })
 
       })
@@ -170,14 +223,14 @@ describe('Contact rendering', () => {
           component.setState({ sendSuccess: false })
         })
 
-        it('should render 1 form-ui div', () => {
-          const wrapper = findByTestAttr(component, 'form-ui')
-          expect(wrapper.length).toBe(1)
-        })
-
         it('should render 1 success message', () => {
           const wrapper = findByTestAttr(component, 'success')
           expect(wrapper.length).toBe(1)
+        })
+
+        it('should not render the submit button', () => {
+          const wrapper = findByTestAttr(component, 'submit')
+          expect(wrapper.length).toBe(0)
         })
 
       })
@@ -690,7 +743,7 @@ describe('handleFocus()', () => {
         emailError: true,
         messageError: true,
         sendSuccess: true,
-      // sendError: {message: 'Errrrrrorrrr!!!'}
+        sendError: true
       })
 
       instance.handleFocus()
@@ -702,7 +755,7 @@ describe('handleFocus()', () => {
       expect(component.state('messageError')).toBe(false)
       expect(component.state('messageError')).toBe(false)
       expect(component.state('sendSuccess')).toBe(false)
-      // expect(component.state('sendError')).toBe(false)
+      expect(component.state('sendError')).toBe(false)
     })
 
   })
@@ -775,6 +828,12 @@ describe('trackChars()', () => {
         expect(component.state('freezeEmail')).toBe(false)
       })
 
+      it('should set state to remove emailError when under the char limit', () => {
+        component.setState({ emailError: true, emailChars: 2 })
+        instance.trackChars('email')
+        expect(component.state('emailError')).toBe(false)
+      })
+
     })
 
     describe('typing in message form field', () => {
@@ -789,6 +848,12 @@ describe('trackChars()', () => {
         component.setState({ messageChars: 2, freezeMessage: true })
         instance.trackChars('message')
         expect(component.state('freezeMessage')).toBe(false)
+      })
+
+      it('should set state to remove messageError when under the char limit', () => {
+        component.setState({ messageError: true, messageChars: 2 })
+        instance.trackChars('message')
+        expect(component.state('messageError')).toBe(false)
       })
 
     })
@@ -836,12 +901,18 @@ describe('handleSubmit()', () => {
       expect(event.preventDefault).toHaveBeenCalledTimes(1)
     })
 
-    it('should set state.sendError to false', () => {
-      component.setState({ sendError: true })
+    it('should set errors in state to false', () => {
+      component.setState({
+        sendError: true,
+        emailError: true,
+        messageError: true
+      })
 
       instance.handleSubmit(event)
 
       expect(component.state('sendError')).toBe(false)
+      expect(component.state('emailError')).toBe(false)
+      expect(component.state('messageError')).toBe(false)
     })
 
     describe('user leaves a form field blank', () => {
@@ -913,7 +984,7 @@ describe('handleSubmit()', () => {
 
           describe('receive message-send-success response', () => {
 
-            it('should set state.submitClicked to false and state.sendSuccess to true', done => {
+            beforeEach(() => {
               component.setState({
                 email: 'moe@gargoyle.com',
                 message: 'get these fries offa my head, kid'
@@ -926,13 +997,24 @@ describe('handleSubmit()', () => {
                   }
                 })
               )
+            })
+
+            it('should call resetForm()', done => {
+              jest.spyOn(instance, 'resetForm')
 
               instance.handleSubmit(event)
 
               setTimeout(() => {
-                component.update()
+                expect(instance.resetForm).toHaveBeenCalledTimes(1)
 
-                expect(component.state('sendSuccess')).toBe(true)
+                done()
+              })
+            })
+
+            it('should set state.submitClicked to false', done => {
+              instance.handleSubmit(event)
+
+              setTimeout(() => {
                 expect(component.state('submitClicked')).toBe(false)
 
                 done()
@@ -960,8 +1042,6 @@ describe('handleSubmit()', () => {
               instance.handleSubmit(event)
 
               setTimeout(() => {
-                component.update()
-
                 expect(component.state('submitClicked')).toBe(false)
                 expect(component.state('sendError')).toBe(true)
 
@@ -988,8 +1068,6 @@ describe('handleSubmit()', () => {
             instance.handleSubmit(event)
 
             setTimeout(() => {
-              component.update()
-
               expect(component.state('submitClicked')).toBe(false)
               expect(component.state('sendError')).toBe(true)
 
@@ -1004,6 +1082,34 @@ describe('handleSubmit()', () => {
 
     })
 
+  })
+
+})
+
+describe('resetForm()', () => {
+
+  let component, instance
+  beforeAll(() => {
+    component = setUp()
+    instance = component.instance()
+
+    component.setState({
+      sendSuccess: false,
+      email: 'millhouse@bartsfriend.com',
+      message: 'everything is coming up millhouse!'
+    })
+  })
+
+  it('should set sendSuccess to true and clear the form fields', done => {
+    instance.resetForm()
+
+    setTimeout(() => {
+      expect(component.state('sendSuccess')).toBe(true)
+      expect(component.state('email')).toBe('')
+      expect(component.state('message')).toBe('')
+
+      done()
+    })
   })
 
 })
@@ -1056,6 +1162,27 @@ describe('componentDidUpdate()', () => {
       })
 
     })
+
+    // describe('resetting the form', () => {
+
+    //   // beforeAll(() => {
+    //   //   component.setState({ sendSuccess: true })
+    //   // })
+
+    //   it('should set the form labels to inactive after a successful submission', () => {
+    //     const email = findByTestAttr(component, 'email')
+    //     const labels = findByTestAttr(component, 'label')
+
+    //     email.simulate('focus')
+
+    //     expect(labels.find('label').at(0).hasClass('active')).toBe(true)
+        
+    //     // wrapper.forEach(label =>
+    //     //   expect(label.hasClass('active')).toBe(false)
+    //     // )
+    //   })
+
+    // })
 
   })
 

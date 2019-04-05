@@ -1,6 +1,6 @@
 @import '../../../../Utils/master';
 
-@mixin menu-size($height, $margin, $padding, $anim, $time) {
+@mixin menu-size($height, $margin, $padding, $fontSize, $anim, $time) {
 	background-color: black;
   padding-left: 24px;
 	position: fixed;
@@ -20,7 +20,7 @@
       padding: $padding;
 
       a {
-        font-size: 1.25rem;
+        font-size: $fontSize;
         font-weight: bold;
         font-family: Comfortaa, Verdana, sans-serif;
         color: $lighter-pink;
@@ -33,26 +33,27 @@
 
 .mobile-menu {
   // small phones
-  @include menu-size(226px, 56px, 24px 0 0 5px, drop-down-sm-phone, 0.2s);
+  @include menu-size(226px, 56px, 24px 0 0 5px, 1.25rem, drop-down-sm-phone, 0.2s);
   
   // medium and large phones
   @media screen and (min-width: 353px) {
-    @include menu-size(264px, 60px, 28px 0 0 8px, drop-down-lg-phone, 0.2s);
+    @include menu-size(264px, 60px, 28px 0 0 8px, 1.25rem, drop-down-lg-phone, 0.2s);
   }
 
   // small tablets
   @media screen and (min-width: 601px) {
-    @include menu-size(348px, 72px, 40px 0 0 28px, drop-down-sm-tablet, 0.25s);
+    @include menu-size(348px, 72px, 40px 0 0 28px, 1.5rem, drop-down-sm-tablet, 0.25s);
   }
 
   // medium tablets
   @media screen and (min-width: 786px) {
-    @include menu-size(396px, 80px, 50px 0 0 40px, drop-down-med-tablet, 0.25s);
+    @include menu-size(396px, 80px, 50px 0 0 40px, 1.75rem, drop-down-med-tablet, 0.25s);
+
   }
 
   // large tablets
   @media screen and (min-width: 937px) {
-    @include menu-size(420px, 90px, 50px 0 0 56px, drop-down-bigger-med-tablet, 0.25s);
+    @include menu-size(420px, 90px, 50px 0 0 56px, 1.75rem, drop-down-bigger-med-tablet, 0.25s);
   }
 
   // never show mobile menu on non-mobile screens
