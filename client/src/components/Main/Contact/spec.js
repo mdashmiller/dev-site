@@ -70,6 +70,11 @@ describe('Contact rendering', () => {
     expect(wrapper.length).toBe(1)
   })
 
+  it('should render 1 Counter component', () => {
+    const wrapper = findByTestAttr(component, 'counter')
+    expect(wrapper.length).toBe(1)
+  })
+
   it('should render 2 input labels', () => {
     const wrapper = findByTestAttr(component, 'label')
     expect(wrapper.length).toBe(2)

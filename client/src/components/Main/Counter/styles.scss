@@ -1,0 +1,10 @@
+@import '../../../../Utils/master';
+
+#counter {
+  display: block;
+  text-align: right;
+
+  span {
+    color: $med-grey;
+  }
+}
