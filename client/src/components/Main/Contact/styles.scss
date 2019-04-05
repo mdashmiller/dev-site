@@ -6,6 +6,10 @@
     margin-left: 1rem;
   }
 
+  i.fa-spinner {
+    color: $dark-pink;
+  }
+
   p, i, span {
   font-size: 1.2rem;
 
@@ -30,10 +34,11 @@
   }
 
   .form-ui {
-    margin-top: 2rem;
+    margin-top: 2.5rem;
+    margin-bottom: 0.5rem;
   }
 }
-	
+
 #submit {
   background-color: $dark-pink;
 	margin-top: 20px;

@@ -287,6 +287,39 @@ class Contact extends Component {
                 <label data-test="label" htmlFor="message">Message</label>
               </div>
               <div data-test="input-field" className="input-field center">
+                <div data-test="form-ui" className="form-ui">
+                  {emailError &&
+                    <p data-test="email-char-err" className="fail">
+                      Sorry but your email address can't exceed 3 characters.
+                    </p>}
+                  {messageError &&
+                    <p data-test="msg-char-err" className="fail">
+                      Sorry but your message can't exceed 3 characters.
+                    </p>}
+                  {formError &&
+                    <p data-test="form-err" className="fail">
+                      Need more input! Please complete both fields.
+                    </p>}
+                  {submitClicked &&
+                    <div>
+                      <i
+                        data-test="sending-icon"
+                        className="fas fa-spinner fa-spin"
+                      >
+                      </i>
+                      <span data-test="sending-message">
+                        Sending Your Message...
+                      </span>
+                    </div>}
+                  {sendSuccess &&
+                    <p data-test="success" className="success">
+                      Message sent! Thanks for your interest.  I'll be in touch soon.
+                    </p>}
+                  {sendError &&
+                    <p data-test="error" className="fail">
+                      Message not sent... There seems to be a network error. Please try again in a moment.
+                    </p>}
+                </div>
                 <button
                   data-test="submit"
                   className="btn"
@@ -295,47 +328,6 @@ class Contact extends Component {
                 >
                   Submit
                 </button>
-                {emailError &&
-                  <div data-test="form-ui" className="form-ui">
-                    <p data-test="email-char-err" className="fail">
-                      Sorry but your email address can't exceed 3 characters.
-                    </p>
-                  </div>}
-                {messageError &&
-                  <div data-test="form-ui" className="form-ui">
-                    <p data-test="msg-char-err" className="fail">
-                      Sorry but your message can't exceed 3 characters.
-                    </p>
-                  </div>}
-                {formError && 
-                  <div data-test="form-ui" className="form-ui">
-                    <p data-test="form-err" className="fail">
-                      Need more input! Please complete both fields.
-                    </p>
-                  </div>}
-                {submitClicked &&
-                  <div data-test="form-ui" className="form-ui">
-                    <i
-                      data-test="sending-icon"
-                      className="fas fa-spinner fa-spin"
-                    >
-                    </i>
-                    <span data-test="sending-message">
-                      Sending Your Message...
-                    </span>
-                  </div>}
-                {sendSuccess &&
-                  <div data-test="form-ui" className="form-ui success">
-                    <p data-test="success">
-                      Message sent! Thanks for your interest.  I'll be in touch soon.
-                    </p>
-                  </div>}
-                {sendError &&
-                  <div data-test="form-ui" className="form-ui fail">
-                    <p data-test="error">
-                      Message not sent... There seems to be a network error. Please try again in a moment.
-                    </p>
-                  </div>}
               </div>
             </form>
           </div>
