@@ -82,7 +82,9 @@ describe('Contact rendering', () => {
 
   it('should render 1 submit button', () => {
     const wrapper = findByTestAttr(component, 'submit')
+
     expect(wrapper.length).toBe(1)
+    expect(wrapper.props().children).toBe('submit')
   })
 
   describe('user exceeds email input char limit', () => {
@@ -202,6 +204,11 @@ describe('Contact rendering', () => {
         it('should render 1 error message', () => {
           const wrapper = findByTestAttr(component, 'error')
           expect(wrapper.length).toBe(1)
+        })
+
+        it('should change text of submit button to retry', () => {
+          const wrapper = findByTestAttr(component, 'submit')
+          expect(wrapper.props().children).toBe('retry')
         })
 
       })

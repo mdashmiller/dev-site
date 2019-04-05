@@ -236,6 +236,10 @@ class Contact extends Component {
       sendError
     } = this.state
 
+    // change submit button to a retry button if
+    // there has been a submission error
+    const buttonText = sendError ? 'retry' : 'submit'
+
     return (
       <section
         data-test="contact"
@@ -331,7 +335,7 @@ class Contact extends Component {
                     id="submit"
                     disabled={submitClicked}
                   >
-                    Submit
+                    {buttonText}
                   </button>}
               </div>
             </form>
