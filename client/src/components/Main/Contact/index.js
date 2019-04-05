@@ -116,7 +116,7 @@ class Contact extends Component {
       emailError: false,
       messageError: false,
       sendSuccess: false,
-      // sendError: null
+      sendError: false
     })
   }
 
@@ -154,9 +154,13 @@ class Contact extends Component {
 
     const { email, message } = this.state
 
-    // clear any sendError message from the ui
+    // clear any error messages from the ui
     // anytime user submits the form
-    this.setState({ sendError: false })
+    this.setState({
+      sendError: false,
+      emailError: false,
+      messageError: false
+    })
     
     // check that user has filled both form fields
     if (!email || !message) {
@@ -320,14 +324,15 @@ class Contact extends Component {
                       Message not sent... There seems to be a network error. Please try again in a moment.
                     </p>}
                 </div>
-                <button
-                  data-test="submit"
-                  className="btn"
-                  id="submit"
-                  disabled={submitClicked}
-                >
-                  Submit
-                </button>
+                {!sendSuccess &&
+                  <button
+                    data-test="submit"
+                    className="btn"
+                    id="submit"
+                    disabled={submitClicked}
+                  >
+                    Submit
+                  </button>}
               </div>
             </form>
           </div>

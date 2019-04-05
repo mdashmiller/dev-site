@@ -75,6 +75,11 @@ describe('Contact rendering', () => {
     expect(wrapper.length).toBe(2)
   })
 
+  it('should render 1 form-ui div', () => {
+    const wrapper = findByTestAttr(component, 'form-ui')
+    expect(wrapper.length).toBe(1)
+  })
+
   it('should render 1 submit button', () => {
     const wrapper = findByTestAttr(component, 'submit')
     expect(wrapper.length).toBe(1)
@@ -88,11 +93,6 @@ describe('Contact rendering', () => {
 
     afterEach(() => {
       component.setState({ emailError: false })
-    })
-
-    it('should render 1 form-ui div', () => {
-      const wrapper = findByTestAttr(component, 'form-ui')
-      expect(wrapper.length).toBe(1)
     })
 
     it('should render 1 email-char-error p', () => {
@@ -110,11 +110,6 @@ describe('Contact rendering', () => {
 
     afterEach(() => {
       component.setState({ messageError: false })
-    })
-
-    it('should render 1 form-ui div', () => {
-      const wrapper = findByTestAttr(component, 'form-ui')
-      expect(wrapper.length).toBe(1)
     })
 
     it('should render 1 msg-char-error p', () => {
@@ -163,11 +158,6 @@ describe('Contact rendering', () => {
         component.setState({ submitClicked: false })
       })
 
-      it('should render 1 form-ui div', () => {
-        const wrapper = findByTestAttr(component, 'form-ui')
-        expect(wrapper.length).toBe(1)
-      })
-
       it('should render 1 spinner icon', () => {
         const wrapper = findByTestAttr(component, 'sending-icon')
         expect(wrapper.length).toBe(1)
@@ -190,11 +180,6 @@ describe('Contact rendering', () => {
         component.setState({ formError: false })
       })  
 
-      it('should render 1 form-ui div', () => {
-        const wrapper = findByTestAttr(component, 'form-ui')
-        expect(wrapper.length).toBe(1)
-      })
-
       it('should render the form error p tag', () => {
         const wrapper = findByTestAttr(component, 'form-err')
         expect(wrapper.length).toBe(1)
@@ -214,11 +199,6 @@ describe('Contact rendering', () => {
           component.setState({ sendError: false })
         })
 
-        it('should render 1 form-ui div', () => {
-          const wrapper = findByTestAttr(component, 'form-ui')
-          expect(wrapper.length).toBe(1)
-        })
-
         it('should render 1 error message', () => {
           const wrapper = findByTestAttr(component, 'error')
           expect(wrapper.length).toBe(1)
@@ -236,14 +216,14 @@ describe('Contact rendering', () => {
           component.setState({ sendSuccess: false })
         })
 
-        it('should render 1 form-ui div', () => {
-          const wrapper = findByTestAttr(component, 'form-ui')
-          expect(wrapper.length).toBe(1)
-        })
-
         it('should render 1 success message', () => {
           const wrapper = findByTestAttr(component, 'success')
           expect(wrapper.length).toBe(1)
+        })
+
+        it('should not render the submit button', () => {
+          const wrapper = findByTestAttr(component, 'submit')
+          expect(wrapper.length).toBe(0)
         })
 
       })
@@ -756,7 +736,7 @@ describe('handleFocus()', () => {
         emailError: true,
         messageError: true,
         sendSuccess: true,
-      // sendError: {message: 'Errrrrrorrrr!!!'}
+        sendError: true
       })
 
       instance.handleFocus()
@@ -768,7 +748,7 @@ describe('handleFocus()', () => {
       expect(component.state('messageError')).toBe(false)
       expect(component.state('messageError')).toBe(false)
       expect(component.state('sendSuccess')).toBe(false)
-      // expect(component.state('sendError')).toBe(false)
+      expect(component.state('sendError')).toBe(false)
     })
 
   })
@@ -914,12 +894,18 @@ describe('handleSubmit()', () => {
       expect(event.preventDefault).toHaveBeenCalledTimes(1)
     })
 
-    it('should set state.sendError to false', () => {
-      component.setState({ sendError: true })
+    it('should set errors in state to false', () => {
+      component.setState({
+        sendError: true,
+        emailError: true,
+        messageError: true
+      })
 
       instance.handleSubmit(event)
 
       expect(component.state('sendError')).toBe(false)
+      expect(component.state('emailError')).toBe(false)
+      expect(component.state('messageError')).toBe(false)
     })
 
     describe('user leaves a form field blank', () => {
