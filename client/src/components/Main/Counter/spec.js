@@ -21,9 +21,10 @@ describe('Counter rendering', () => {
     component = setUp(props)
   })
 
-  // it('should receive props', () => {
-  //   expect(component.props().chars).toBe(1)
-  // })
+  it('should render the char prop it receives', () => {
+    expect(component.props().children)
+      .toEqual(<span data-test="count">{props.chars}/3</span>)
+  })
 
   it('should render 1 counter div', () => {
     const wrapper = findByTestAttr(component, 'counter')

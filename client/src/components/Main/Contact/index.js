@@ -195,7 +195,8 @@ class Contact extends Component {
     this.setState({
       sendSuccess: true,
       email: '',
-      message: ''
+      message: '',
+      messageChars: 0
     })
   }
 
@@ -297,7 +298,9 @@ class Contact extends Component {
                 </textarea>
                 <label data-test="label" htmlFor="message">Message</label>
               </div>
-              <Counter data-test="counter" chars={messageChars} />
+              {messageChars
+                ? <Counter data-test="counter" chars={messageChars} />
+                : null}
               <div data-test="input-field" className="input-field center">
                 <div data-test="form-ui" className="form-ui">
                   {emailError &&
