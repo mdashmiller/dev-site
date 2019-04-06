@@ -87,6 +87,19 @@ describe('Contact rendering', () => {
     expect(wrapper.props().children).toBe('submit')
   })
 
+  describe('user types in the message field', () => {
+
+    beforeEach(() => {
+      component.setState({ messageChars: 1 })
+    })
+
+    it('should render 1 Counter component', () => {
+      const wrapper = findByTestAttr(component, 'counter')
+      expect(wrapper.length).toBe(1)
+    })
+
+  })
+
   describe('user exceeds email input char limit', () => {
 
     beforeEach(() => {
@@ -1096,17 +1109,19 @@ describe('resetForm()', () => {
     component.setState({
       sendSuccess: false,
       email: 'millhouse@bartsfriend.com',
-      message: 'everything is coming up millhouse!'
+      message: 'everything is coming up millhouse!',
+      messageChars: 99
     })
   })
 
-  it('should set sendSuccess to true and clear the form fields', done => {
+  it('should set sendSuccess to true, messageChars to 0 and clear the form fields', done => {
     instance.resetForm()
 
     setTimeout(() => {
       expect(component.state('sendSuccess')).toBe(true)
       expect(component.state('email')).toBe('')
       expect(component.state('message')).toBe('')
+      expect(component.state('messageChars')).toBe(0)
 
       done()
     })

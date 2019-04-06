@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import './styles.scss'
 
+import Counter from '../Counter'
+
 import notChars from '../../../../src/notChars'
 
 class Contact extends Component {
@@ -193,7 +195,8 @@ class Contact extends Component {
     this.setState({
       sendSuccess: true,
       email: '',
-      message: ''
+      message: '',
+      messageChars: 0
     })
   }
 
@@ -231,6 +234,7 @@ class Contact extends Component {
       emailError,
       messageError,
       formError,
+      messageChars,
       submitClicked,
       sendSuccess,
       sendError
@@ -294,6 +298,9 @@ class Contact extends Component {
                 </textarea>
                 <label data-test="label" htmlFor="message">Message</label>
               </div>
+              {messageChars
+                ? <Counter data-test="counter" chars={messageChars} />
+                : null}
               <div data-test="input-field" className="input-field center">
                 <div data-test="form-ui" className="form-ui">
                   {emailError &&
