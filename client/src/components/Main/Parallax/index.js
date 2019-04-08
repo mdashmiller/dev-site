@@ -1,5 +1,6 @@
 import React from 'react'
 import './styles.scss'
+import PropTypes from 'prop-types'
 
 import ibm360 from '../../../assets/images/IBM360_91.jpg'
 import switchboard from '../../../assets/images/switchboard.jpg'
@@ -29,6 +30,10 @@ const Parallax = ({ position }) => {
       </div>
     </div>
   )
+}
+
+Parallax.propTypes = {
+  position: PropTypes.string.isRequired
 }
 
 export default Parallax
