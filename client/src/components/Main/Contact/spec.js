@@ -163,7 +163,24 @@ describe('Contact rendering', () => {
 
     })
 
-    describe('there is no form error', () => {
+    describe('user leaves a form field blank', () => {
+
+      beforeAll(() => {
+        component.setState({ formError: true })
+      })
+
+      afterAll(() => {
+        component.setState({ formError: false })
+      })
+
+      it('should render the form error p tag', () => {
+        const wrapper = findByTestAttr(component, 'form-err')
+        expect(wrapper.length).toBe(1)
+      })
+
+    })
+
+    describe('user fills in both fields', () => {
 
       beforeAll(() => {
         component.setState({ submitClicked: true })
@@ -181,30 +198,9 @@ describe('Contact rendering', () => {
       it('should render 1 loading-message span', () => {
         const wrapper = findByTestAttr(component, 'sending-message')
         expect(wrapper.length).toBe(1)
-      }) 
-
-    })
-
-    describe('user leaves a form field blank', () => {
-
-      beforeAll(() => {
-        component.setState({ formError: true })
       })
 
-      afterAll(() => {
-        component.setState({ formError: false })
-      })  
-
-      it('should render the form error p tag', () => {
-        const wrapper = findByTestAttr(component, 'form-err')
-        expect(wrapper.length).toBe(1)
-      })
-
-    })
-
-    describe('user fills in both fields', () => {
-
-      describe('nodemailer returns an error', () => {
+      describe('an error is returned by axios.POST or nodemailer', () => {
 
         beforeAll(() => {
           component.setState({ sendError: true })
@@ -226,7 +222,7 @@ describe('Contact rendering', () => {
 
       })
 
-      describe('nodemailer returns success', () => {
+      describe('successful POST request and nodemailer returns success message', () => {
 
         beforeAll(() => {
           component.setState({ sendSuccess: true })
@@ -1180,21 +1176,10 @@ describe('componentDidUpdate()', () => {
 
     // describe('resetting the form', () => {
 
-    //   // beforeAll(() => {
-    //   //   component.setState({ sendSuccess: true })
-    //   // })
-
     //   it('should set the form labels to inactive after a successful submission', () => {
-    //     const email = findByTestAttr(component, 'email')
-    //     const labels = findByTestAttr(component, 'label')
-
-    //     email.simulate('focus')
-
-    //     expect(labels.find('label').at(0).hasClass('active')).toBe(true)
-        
-    //     // wrapper.forEach(label =>
-    //     //   expect(label.hasClass('active')).toBe(false)
-    //     // )
+    //     // can't figure out a way to make the input-field labels 'active'
+    //     // so I can test that setting sendSuccess to true removes the
+    //     // active class
     //   })
 
     // })
