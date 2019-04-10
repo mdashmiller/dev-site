@@ -27,11 +27,11 @@ const Footer = () => {
               and then went on to learn full stack application 
               development at the University of YouTube and 
               Stack Overflow Academy, with lots of help from <a
-              href="https://www.robinwieruch.de/" target="_blank">
+              href="https://www.robinwieruch.de/" target="_blank" rel="noopener noreferrer">
               Robin Wieruch</a>, <a href="https://marijnhaverbeke.nl/" 
-              target="_blank">Marijn Haverbeke</a>, <a
-              href="https://www.thenetninja.co.uk/" target="_blank">
-              Shaun Pelling</a> and several others.
+              target="_blank" rel="noopener noreferrer"> Marijn Haverbeke</a>, <a
+              href="https://www.thenetninja.co.uk/" target="_blank" rel="noopener noreferrer">
+               Shaun Pelling</a> and several others.
             </p>
             <p data-test="content">
               I currently live in the Houston area and in my 
