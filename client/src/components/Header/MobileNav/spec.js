@@ -202,6 +202,14 @@ describe('handleOutsideClick()', () => {
 
 // })
 
+// describe('componentWillUnmount', () => {
+
+//   it('should remove "click" event listener from the document', () => {
+
+//   })
+
+// })
+
 describe('MobileNav mounting and unmounting', () => {
 
   it('should render without error', () => {

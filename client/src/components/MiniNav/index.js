@@ -47,6 +47,11 @@ class MiniNav extends Component {
     window.addEventListener('scroll', () => this.setScrollPosition())
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', () => this.setWindowWidth())
+    window.removeEventListener('scroll', () => this.setScrollPosition())
+  }
+
   render() {
     const {
       windowWidth,

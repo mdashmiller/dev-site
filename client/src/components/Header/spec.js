@@ -137,6 +137,14 @@ describe('setWindowWidth()', () => {
 
 // })
 
+// describe('componentWillUnmount()', () => {
+
+//   it('should remove the "resize" event listener from the window', () => {
+
+//   })
+
+// })
+
 describe('Header mounting and unmounting', () => {
 
   it('should render without error', () => {

@@ -21,6 +21,10 @@ class Header extends Component {
     window.addEventListener('resize', () => this.setWindowWidth())
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', () => this.setWindowWidth())
+  }
+
   render() {
     const { windowWidth } = this.state
     

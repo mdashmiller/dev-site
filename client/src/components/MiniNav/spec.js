@@ -404,6 +404,23 @@ describe('toggleMenu()', () => {
 
 // })
 
+// describe('comoponentWillUnmount()', () => {
+
+//   describe('directly invoking componentWillUnmount()', () => {
+
+
+//     it('should remove the resize event listener from the window', () => {
+
+//     })
+
+//     it('should remove the scroll event listener from the window', () => {
+
+//     })
+
+//   })
+
+// })
+
 describe('MiniNav mounting and unmounting', () => {
 
   it('should render without error', () => {

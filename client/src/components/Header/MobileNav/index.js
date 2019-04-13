@@ -31,6 +31,10 @@ class MobileNav extends Component {
     document.addEventListener('click', (e) => this.handleOutsideClick(e))
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('click', (e) => this.handleOutsideClick(e))
+  }
+
   render() {
     const { mobileNavOpen } = this.state
     const toggle = mobileNavOpen ? 'visible' : null
