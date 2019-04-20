@@ -21,6 +21,13 @@
       font-size: 1.4rem;
     }
   }
+
+  form {
+
+    @media screen and (min-width: 993px) {
+      margin-top: 3rem;
+    }
+  }
 } 
 
 .input-field {
